@@ -4,30 +4,37 @@ $(document).ready(function(){
 
 
 
-function displayProducts(products)  {
 
-let container = $('#products-container');
-container.empty();
+function displayProducts(products) {
+    let container = $('#products-container');
+    container.empty();
 
-products.forEach(product => {
-
-    let productElement = $('<div class="product">')
-    productElement.append(`<h3> ${product.title} </h3>`);
-    productElement.append(`<p>Price:   $${product.price}</p>`);
-    productElement.append(`<p>Discount:   ${product.discountPercentage}%</p>`);
-    productElement.append(`<p>Category:  ${product.category}</p>`);
-    productElement.append(`<p>Stock:  ${product.stock}</p>`);
-    productElement.append(`<img src="${product.thumbnail}" alt="${product.title}" class="product-image"/>`);
-    productElement.on('click', () => ProductInfo(product));
-    container.append(productElement);
-});
-
+    products.forEach(product => {
+        let productElement = $(`
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="${product.thumbnail}" alt="${product.title}">
+                </div>
+                <div class="product-info">
+                    <h2 class="product-title">${product.title}</h2>
+                    <p class="product-price">Price: $${product.price}</p>
+                    <p class="product-discount">Discount: ${product.discountPercentage}%</p>
+                    <p class="product-category">Category: ${product.category}</p>
+                    <p class="product-stock">Stock: ${product.stock}</p>
+                    <button class="details-button" onclick="location.href='productDetail.html?productId=${product.id}'">More Details</button>
+                </div>
+            </div>
+        `);
+        container.append(productElement);
+    });
 }
+
+
 
 
 function fetchProducts() {
     $.ajax({
-        url: 'https://dummyjson.com/products',
+        url: 'https://dummyjson.com/products?limit=100',
         type: 'GET',
         timeout: 2000,
         success: function(data) {
@@ -57,9 +64,6 @@ function fetchProducts() {
 }
 
 
-function ProductInfo(product){
-    console.log("Product info: ", product);
-}
 
 
 

@@ -8,16 +8,34 @@
 </head>
 <body>
     
+    <div id="error-message" class="error-message"></div>
 
     <div class="container">
-        <div id="products-container">
+        <div class="search-container">
+        <div id="search-area">
+            <input type="text" id="search-input" placeholder="Search products by Title...">
+            <button id="search-button">Search</button>
+        </div>
 
+       
+        <div id="filter-area">
+            <label for="category-select"><p id="filterCategory">Filter by Category: </p></label>
+            <select id="category-select">
+                <option value="">All Categories</option>
+             
+            </select>
+        </div>
+    </div>
+        
+        <div id="products-container">
+            
         </div>
     </div>
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="errorHandling.js"></script>
     <script src="script.js"></script>
-
+    <script src="errorHandling.js"></script>
 
 </body>
 </html>

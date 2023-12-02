@@ -14,9 +14,7 @@ function fetchProductDetails(productId) {
         success: function(product) {
             displayProductDetails(product);
         },
-        error: function(xhr, status, error) {
-            console.error("Error occurred fetching product details:", error);
-        }
+        error: handleAjaxError
     });
 }
 
@@ -48,8 +46,6 @@ function displayProductDetails(product) {
         <button id="goBackButton">Go Back</button>
     </div>
 </div> 
-
-
       
     `
     container.append(detailHtml);
@@ -60,10 +56,7 @@ function displayProductDetails(product) {
     });
 }
 
-$(document).on('click', '.detail-image-item', function() { 
-    var src = $(this).attr('src');
-    console.log('Image clicked:', src);
-});
+
 
 function goBackToMainView() {
     window.history.back();

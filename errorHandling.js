@@ -1,17 +1,23 @@
 function handleAjaxError(xhr, status, error) {
-    let errorMessage = '';
-
-    if (status === "timeout") {
-        errorMessage = "Request timed out. Please try again later.";
-    } else if (xhr.status === 0) {
-        errorMessage = "Please ensure you are connected to the internet.";
-    } else if (xhr.status === 404) {
-        errorMessage = "Requested resource not found.";
-    } else if (xhr.status === 500) {
-        errorMessage = "Internal Server Error.";
-    } else {
-        errorMessage = `An error occurred: ${xhr.status} ${error}`;
+    const errorMessage = '';
+    function handleAjaxError(xhr, status, error) {
+        const errorMessage = (() => {
+            switch (true) {
+                case status === "timeout":
+                    return "Request timed out. Please try again later.";
+                case xhr.status === 0:
+                    return "Please ensure you are connected to the internet.";
+                case xhr.status === 404:
+                    return "Requested resource not found.";
+                case xhr.status === 500:
+                    return "Internal Server Error.";
+                default:
+                    return `An error occurred: ${xhr.status} ${error}`;
+            }
+        })();
+    
+        $('#error-message').text(errorMessage);
+    
+       
     }
-
-    $('#error-message').text(errorMessage);
 }

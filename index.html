@@ -5,13 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Display</title>
     <link rel="stylesheet" href="styles.css">
+    
+
 </head>
 <body>
     
     <div id="error-message" class="error-message"></div>
 
     <div class="container">
-        <div class="search-container">
+        <section class="search-container">
         <div id="search-area">
             <input type="text" id="search-input" placeholder="Search products by Title...">
             <button id="search-button">Search</button>
@@ -19,23 +21,28 @@
 
        
         <div id="filter-area">
-            <label for="category-select"><p id="filterCategory">Filter by Category: </p></label>
+            <label for="category-select"> <span id="filterCategory">Filter by Category: </span></label>
             <select id="category-select">
                 <option value="">All Categories</option>
              
             </select>
         </div>
-    </div>
+    </section>
         
-        <div id="products-container">
+        <section id="products-container"> </section>
             
-        </div>
+        
     </div>
-    
+
+    <section id="pagination-container" class="pagination"></section>
+
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="errorHandling.js"></script>
-    <script src="script.js"></script>
-    <script src="errorHandling.js"></script>
+    <script src="script.js" async></script>
+    
 
 </body>
+
+
 </html>

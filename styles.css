@@ -7,9 +7,6 @@ body {
   background-image: url('https://images.unsplash.com/photo-1619204715997-1367fe5812f1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1889&q=80');
   background-size: cover;
   background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   height: 100vh;
   margin: 0;
   padding: 0;
@@ -25,6 +22,7 @@ body {
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
   background-color: rgba(17, 25, 40, 0.25);
+  min-height: 80vh;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.125);
   padding: 38px;
@@ -155,6 +153,7 @@ body {
 }
 
 #category-select {
+  margin-top: 10px;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -163,10 +162,73 @@ body {
 
 #filterCategory {
   color: brown;
-  font-size: 20;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+ 
 }
+
 #noProd{
   font-weight: bold;
   color: brown;
-  font-size: 30;
+  font-size: 30px;
+}
+
+
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  position: relative;
+}
+
+
+.pagination button {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+  border-radius: 8px; 
+  padding: 10px 15px; 
+  margin: 5px 5px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+  font-size: 1rem; 
+}
+
+.pagination button:hover,
+.pagination button:focus {
+  background-color: #0056b3;
+  border-color: #0056b3;
+  outline: none;
+}
+
+
+.pagination button.current-page {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+
+.pagination button.disabled {
+  background-color: #6c757d;
+  pointer-events: none;
+}
+
+#back-button, #next-button {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 5px 5px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+#back-button:disabled, #next-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
 }

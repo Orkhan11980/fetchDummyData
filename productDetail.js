@@ -66,7 +66,7 @@ const ProductDetails = (function() {
     }
 
     return {
-        fetch: fetchP,
+        fetch: fetchProductDetails,
         goBack: goBack
     };
 })();

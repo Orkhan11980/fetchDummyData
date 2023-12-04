@@ -15,13 +15,17 @@ $(document).ready(function() {
 const ProductDetails = (function() {
     const container = $('#detail-container');
 
-    function fetch(productId) {
-        $.ajax({
-            url: `https://dummyjson.com/products/${productId}`,
-            type: 'GET',
-            success: display,
-            error: handleAjaxError
-        });
+    async function fetchProductDetails(productId) {
+        try {
+            const response = await fetch(`https://dummyjson.com/products/${productId}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const product = await response.json();
+            display(product);
+        } catch (error) {
+            handleAjaxError(error);
+        }
     }
 
     function display(product) {
@@ -62,7 +66,7 @@ const ProductDetails = (function() {
     }
 
     return {
-        fetch: fetch,
+        fetch: fetchP,
         goBack: goBack
     };
 })();

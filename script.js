@@ -20,18 +20,21 @@ $(document).ready(function() {
         filterByCategory(category);
     });
 
-    function fetchProducts() {
-        $.ajax({
-            url: 'https://dummyjson.com/products?limit=100',
-            type: 'GET',
-            success: function(data) {
-                currentProducts = data.products;
-                displayProducts(currentProducts);
-                setupCategoryFilter(currentProducts);
-            },
-            error: handleAjaxError
-        });
+    async function fetchProducts() {
+        try {
+            const response = await fetch('https://dummyjson.com/products?limit=100');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            currentProducts = data.products;
+            displayProducts(currentProducts);
+            setupCategoryFilter(currentProducts);
+        } catch (error) {
+            handleAjaxError(error);
+        }
     }
+    
 
     function displayProducts(products) {
         container.empty();

@@ -42,14 +42,11 @@ To get this project up and running on your local machine, follow these simple st
 2. Navigate to the project directory:
   ```sh
    cd [repository-name]
-
-
+```
 ### Usage
 
-```markdown
-### Usage
 
-After installing, you can use this project as follows:
+ After installing, you can use this project as follows:
 
 1. Open the `index.html` file in a modern web browser.
 

@@ -30,7 +30,12 @@ $(document).ready(function() {
         let skip = (page - 1) * itemsPerPage;
     
         fetch(`https://dummyjson.com/products?limit=${itemsPerPage}&skip=${skip}&select=title,price,thumbnail,discountPercentage,stock,category`)
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) {
+                throw new Error(handleAjaxError(res));
+            }
+            return res.json();
+        })
         .then(data => {
             displayProducts(data.products);
             setupPagination(data.total, page);
@@ -70,7 +75,12 @@ $(document).ready(function() {
 
     function fetchCategories() {
         fetch('https://dummyjson.com/products/categories')
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(handleAjaxError(res));
+                }
+                return res.json();
+            })
             .then(data => {
                 populateCategorySelect(data);
             })
@@ -96,7 +106,12 @@ $(document).ready(function() {
         }
         
         fetch(`https://dummyjson.com/products/category/${category}`)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(handleAjaxError(res));
+                }
+                return res.json();
+            })
             .then(data => {
                 displayProducts(data.products);
                 setupPagination(data.products.length, currentPage); 
@@ -108,7 +123,12 @@ $(document).ready(function() {
 
         function fetchProductsBySearch(query) {
                 fetch(`https://dummyjson.com/products/search?q=${query}`)
-                    .then(res => res.json())
+                    .then(res => {
+                        if (!res.ok) {
+                            throw new Error(handleAjaxError(res));
+                        }
+                        return res.json();
+                    })
                     .then(data => {
                         displayProducts(data.products);
                         setupPagination(data.products.length, currentPage); 

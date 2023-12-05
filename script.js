@@ -4,48 +4,48 @@ $(document).ready(function() {
     const container = $('#products-container');
     const paginationContainer = $('#pagination-container');
 
-    let currentProducts = []; 
     let currentPage = 1;
     const itemsPerPage = 10;
 
-    fetchProducts();
+    
+    fetchProducts(currentPage);
+    fetchCategories();
 
     $('#search-button').click(function() {
-        let keyword = searchInput.val();
-        searchProducts(keyword);
+        let keyword = searchInput.val().trim();
+        if (keyword) {
+            fetchProductsBySearch(keyword);
+        } else {
+           
+            fetchProducts(currentPage);
+        }
     });
 
     categorySelect.change(function() {
         let category = $(this).val();
-        filterByCategory(category);
+        fetchProductsByCategory(category);
     });
 
-    async function fetchProducts() {
-        try {
-            const response = await fetch('https://dummyjson.com/products?limit=100');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
-            currentProducts = data.products;
-            displayProducts(currentProducts);
-            setupCategoryFilter(currentProducts);
-        } catch (error) {
-            handleAjaxError(error);
-        }
-    }
+    function fetchProducts(page) {
+        let skip = (page - 1) * itemsPerPage;
     
+        fetch(`https://dummyjson.com/products?limit=${itemsPerPage}&skip=${skip}&select=title,price,thumbnail,discountPercentage,stock,category`)
+        .then(res => res.json())
+        .then(data => {
+            displayProducts(data.products);
+            setupPagination(data.total, page);
+        })
+        .catch(error => {
+            console.error('Error fetching products:', error);
+        });
+    }
 
     function displayProducts(products) {
         container.empty();
-        let start = (currentPage - 1) * itemsPerPage;
-        let end = start + itemsPerPage;
-        let paginatedItems = products.slice(start, end);
-
-        if (paginatedItems.length === 0) {
+        if (products.length === 0) {
             container.append('<p id="noProd">No products found.</p>');
         } else {
-            paginatedItems.forEach(product => {
+            products.forEach(product => {
                 let productElement = $(`
                     <div class="product-card">
                         <div class="product-image">
@@ -64,45 +64,75 @@ $(document).ready(function() {
                 container.append(productElement);
             });
         }
-        setupPagination(products.length);
     }
 
-    function setupCategoryFilter(products) {
-        let categories = new Set();
-        products.forEach(product => categories.add(product.category));
+
+
+    function fetchCategories() {
+        fetch('https://dummyjson.com/products/categories')
+            .then(res => res.json())
+            .then(data => {
+                populateCategorySelect(data);
+            })
+            .catch(error => {
+                console.error('Error fetching categories:', error);
+            });
+    }
+
+    
+    function populateCategorySelect(categories) {
         categorySelect.empty();
-        categorySelect.append('<option value="">All Categories</option>');
+        categorySelect.append('<option value="">Select a category</option>');
         categories.forEach(category => {
             categorySelect.append(`<option value="${category}">${category}</option>`);
         });
     }
 
-    function searchProducts(keyword) {
-        let filteredProducts = currentProducts.filter(product => 
-            product.title.toLowerCase().includes(keyword.toLowerCase())
-        );
-        currentPage = 1;
-        displayProducts(filteredProducts);
+   
+    function fetchProductsByCategory(category) {
+        if (!category) {
+            fetchProducts(currentPage); 
+            return;
+        }
+        
+        fetch(`https://dummyjson.com/products/category/${category}`)
+            .then(res => res.json())
+            .then(data => {
+                displayProducts(data.products);
+                setupPagination(data.products.length, currentPage); 
+            })
+            .catch(error => {
+                console.error(`Error fetching products for category ${category}:`, error);
+            });
     }
 
-    function filterByCategory(category) {
-        let filteredProducts = category === "" ? currentProducts :
-            currentProducts.filter(product => product.category === category);
-        currentPage = 1;
-        displayProducts(filteredProducts);
-    }
+        function fetchProductsBySearch(query) {
+                fetch(`https://dummyjson.com/products/search?q=${query}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        displayProducts(data.products);
+                        setupPagination(data.products.length, currentPage); 
+                    })
+                    .catch(error => {
+                        console.error(`Error fetching search results for query "${query}":`, error);
+                    });
+            }
 
-    function setupPagination(totalProducts) {
+
+
+
+
+    function setupPagination(totalProducts, currentPage) {
         let pageCount = Math.ceil(totalProducts / itemsPerPage);
         paginationContainer.empty();
         
-        let backButton = $('<button id="back-button">Back</button>').on('click', function() {
-            if (currentPage > 1) {
+        if (currentPage > 1) {
+            let backButton = $('<button id="back-button">Back</button>').on('click', function() {
                 currentPage--;
-                displayProducts(currentProducts);
-            }
-        });
-        paginationContainer.append(backButton);
+                fetchProducts(currentPage);
+            });
+            paginationContainer.append(backButton);
+        }
 
         let startPage = Math.max(currentPage - 2, 1); 
         let endPage = Math.min(currentPage + 2, pageCount); 
@@ -110,30 +140,20 @@ $(document).ready(function() {
         for (let i = startPage; i <= endPage; i++) {
             let button = $(`<button>${i}</button>`).on('click', function() {
                 currentPage = i;
-                displayProducts(currentProducts);
-            });
-            if (i === currentPage) {
-                button.addClass('current-page');
-            }
+                fetchProducts(currentPage);
+            }).addClass(i === currentPage ? 'current-page' : '');
             paginationContainer.append(button);
         }
 
-        let nextButton = $('<button id="next-button">Next</button>').on('click', function() {
-            if (currentPage < pageCount) {
+        if (currentPage < pageCount) {
+            let nextButton = $('<button id="next-button">Next</button>').on('click', function() {
                 currentPage++;
-                displayProducts(currentProducts);
-            }
-        });
-        paginationContainer.append(nextButton);
-
-        $("#back-button").prop('disabled', currentPage === 1);
-        $("#next-button").prop('disabled', currentPage === pageCount);
+                fetchProducts(currentPage);
+            });
+            paginationContainer.append(nextButton);
+        }
     }
 
-   
+    
+    
 });
-
-
-
-
-

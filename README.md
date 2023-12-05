@@ -1,5 +1,10 @@
 # Dynamic Data Fetching and Display
 
+
+[fetchDummyData](https://orkhan11980.github.io/fetchDummyData/)
+
+
+
 This project showcases the ability to fetch data from an API and dynamically populate a web page with the loaded data in a user-friendly format. It is designed as an assignment to demonstrate proficiency in web development, particularly in API interactions and dynamic DOM manipulations.
 
 ## Table of Contents

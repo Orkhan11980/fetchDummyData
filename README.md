@@ -60,5 +60,3 @@ To get this project up and running on your local machine, follow these simple st
 3. The application will dynamically update the content based on your interactions, fetching data as needed.
 
 
-
-

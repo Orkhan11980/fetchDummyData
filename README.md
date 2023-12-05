@@ -37,7 +37,7 @@ To get this project up and running on your local machine, follow these simple st
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/[your-username]/[repository-name].git
+   git clone https://github.com/Orkhan11980/fetchDummyData.git
 
 2. Navigate to the project directory:
   ```sh

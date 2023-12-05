@@ -1,4 +1,3 @@
-# Dynamic Data Fetching and Display
 
 
 # [Dynamic Data Fetching and Display](https://orkhan11980.github.io/fetchDummyData/)
